@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Communication Coach Dashboard</title>
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- App Container -->
+  <div id="app" class="logged-out">
+
+    <!-- Auth View -->
+    <div id="auth-section" class="view-container">
+      <div class="auth-card">
+        <div class="auth-header">
+          <div class="auth-logo">
+            <span class="logo-accent">AI</span> Coach
+          </div>
+          <h2 id="auth-title">Welcome Back</h2>
+          <p id="auth-subtitle">Log in to check your speaking sessions</p>
+        </div>
+
+        <!-- Login Form -->
+        <form id="login-form" class="auth-form">
+          <div class="form-group">
+            <label for="login-email">Email Address</label>
+            <input type="email" id="login-email" required placeholder="name@company.com">
+          </div>
+          <div class="form-group">
+            <label for="login-password">Password</label>
+            <input type="password" id="login-password" required placeholder="Enter password">
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">Log In</button>
+          <div class="auth-switch">
+            Don't have an account? <a href="#" id="go-to-register">Register here</a>
+          </div>
+        </form>
+
+        <!-- Register Form -->
+        <form id="register-form" class="auth-form hidden">
+          <div class="form-group">
+            <label for="register-name">Full Name</label>
+            <input type="text" id="register-name" required placeholder="Enter your full name">
+          </div>
+          <div class="form-group">
+            <label for="register-email">Email Address</label>
+            <input type="email" id="register-email" required placeholder="name@company.com">
+          </div>
+          <div class="form-group">
+            <label for="register-password">Password</label>
+            <input type="password" id="register-password" required placeholder="Min 6 characters">
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">Create Account</button>
+          <div class="auth-switch">
+            Already have an account? <a href="#" id="go-to-login">Log in here</a>
+          </div>
+        </form>
+        
+        <div id="auth-alert" class="alert alert-danger hidden"></div>
+      </div>
+    </div>
+
+    <!-- Main Workspace (Logged-in) -->
+    <div id="workspace-section" class="view-container hidden">
+      
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <div class="sidebar-brand">
+          <div class="logo">
+            <span class="logo-accent">AI</span> Coach
+          </div>
+        </div>
+        <nav class="sidebar-nav">
+          <a href="#" class="nav-item active" id="nav-dashboard">
+            <svg class="nav-icon" viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+            Dashboard
+          </a>
+          <a href="#" class="nav-item" id="nav-logout">
+            <svg class="nav-icon" viewBox="0 0 24 24"><path d="M10.09 15.59L11.5 17l5-5-5-5-1.41 1.41L12.67 11H3v2h9.67l-2.58 2.59zM19 3H5c-1.11 0-2 .9-2 2v4h2V5h14v14H5v-4H3v4c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+            Sign Out
+          </a>
+        </nav>
+        <div class="sidebar-footer">
+          <div class="user-profile-badge">
+            <div class="user-avatar" id="avatar-letters">VT</div>
+            <div class="user-info">
+              <span class="user-name" id="user-display-name">Vishal</span>
+              <span class="user-role">Speaker</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Layout -->
+      <main class="main-content">
+        
+        <!-- Header -->
+        <header class="content-header">
+          <h1 id="page-title">Dashboard</h1>
+          <div class="header-actions">
+            <span id="date-display">Thursday, July 2, 2026</span>
+          </div>
+        </header>
+
+        <!-- Dynamic Page Workspace -->
+        <div class="workspace-body">
+
+          <!-- Dashboard Subview -->
+          <div id="dashboard-subview" class="subview">
+            
+            <!-- Upload Panel -->
+            <div class="card upload-card">
+              <div class="upload-zone" id="drop-zone">
+                <svg class="upload-icon" viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/></svg>
+                <h3>Upload Your Speaking Video</h3>
+                <p>Drag and drop your video file here, or click to browse</p>
+                <span class="file-limits">Supports MP4, MOV, AVI, MKV, WebM (Max 100MB)</span>
+                <input type="file" id="video-file-input" class="hidden" accept="video/mp4,video/quicktime,video/x-msvideo,video/x-matroska,video/webm">
+              </div>
+              <div id="upload-progress-container" class="upload-progress hidden">
+                <div class="progress-info">
+                  <span id="upload-filename">video.mp4</span>
+                  <span id="upload-percentage">0%</span>
+                </div>
+                <div class="progress-track">
+                  <div class="progress-bar" id="upload-progress-bar"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Active Jobs Section -->
+            <div class="card table-card">
+              <div class="card-header">
+                <h2>Analysis Jobs & History</h2>
+              </div>
+              <div class="table-responsive">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Upload Date</th>
+                      <th>Video File</th>
+                      <th>Status</th>
+                      <th>Progress</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="jobs-list-body">
+                    <tr>
+                      <td colspan="5" class="table-empty">No upload sessions found. Get started by uploading a video!</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Report Details Subview -->
+          <div id="report-subview" class="subview hidden">
+            
+            <!-- Report Navigation Bar -->
+            <div class="report-navbar">
+              <button class="btn btn-secondary" id="btn-back-dashboard">
+                <svg class="btn-icon" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+                Back to Dashboard
+              </button>
+              <div class="report-meta-text">
+                Session Report for: <span id="report-file-name" class="accent-text">video-session.mp4</span>
+              </div>
+            </div>
+
+            <!-- Overview Grid (Overall Score Circular Gauge & Summary) -->
+            <div class="report-grid-top">
+              
+              <!-- Circular Gauge Card -->
+              <div class="card score-gauge-card">
+                <h3>Overall Performance</h3>
+                <div class="gauge-wrapper">
+                  <svg class="radial-gauge" viewBox="0 0 120 120">
+                    <circle class="gauge-bg" cx="60" cy="60" r="50"></circle>
+                    <circle class="gauge-fill" cx="60" cy="60" r="50" style="stroke-dashoffset: 314;"></circle>
+                  </svg>
+                  <div class="gauge-value">
+                    <span id="overall-score-num">0</span>
+                    <span class="gauge-max">/100</span>
+                  </div>
+                </div>
+                <div class="speaking-speed-badge">
+                  Speaking Speed: <span id="speaking-speed-val">0</span> WPM
+                </div>
+              </div>
+
+              <!-- Executive Summary -->
+              <div class="card summary-card">
+                <h3>Executive Coach Summary</h3>
+                <p id="report-summary-text">Analyzing report contents...</p>
+                
+                <div class="speech-patterns-bar">
+                  <div class="pattern-stat">
+                    <span class="stat-num" id="filler-count-num">0</span>
+                    <span class="stat-lbl">Filler Words</span>
+                  </div>
+                  <div class="pattern-stat border-left border-right">
+                    <span class="stat-num" id="pauses-count-num">0</span>
+                    <span class="stat-lbl">Long Pauses</span>
+                  </div>
+                  <div class="pattern-stat">
+                    <span class="stat-num" id="timeline-count-num">0</span>
+                    <span class="stat-lbl">Coaching Alerts</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Sub-scores Grid -->
+            <div class="card sub-scores-card">
+              <div class="card-header">
+                <h2>Communication Competency Dimensions</h2>
+              </div>
+              <div class="sub-scores-grid">
+                
+                <div class="sub-score-item">
+                  <div class="sub-score-header">
+                    <span>Confidence</span>
+                    <span class="sub-score-val" id="score-confidence">0%</span>
+                  </div>
+                  <div class="score-track"><div class="score-fill" id="fill-confidence" style="width: 0%;"></div></div>
+                </div>
+
+                <div class="sub-score-item">
+                  <div class="sub-score-header">
+                    <span>Eye Contact</span>
+                    <span class="sub-score-val" id="score-eye-contact">0%</span>
+                  </div>
+                  <div class="score-track"><div class="score-fill" id="fill-eye-contact" style="width: 0%;"></div></div>
+                </div>
+
+                <div class="sub-score-item">
+                  <div class="sub-score-header">
+                    <span>Posture Poise</span>
+                    <span class="sub-score-val" id="score-posture">0%</span>
+                  </div>
+                  <div class="score-track"><div class="score-fill" id="fill-posture" style="width: 0%;"></div></div>
+                </div>
+
+                <div class="sub-score-item">
+                  <div class="sub-score-header">
+                    <span>Hand Gestures</span>
+                    <span class="sub-score-val" id="score-gesture">0%</span>
+                  </div>
+                  <div class="score-track"><div class="score-fill" id="fill-gesture" style="width: 0%;"></div></div>
+                </div>
+
+                <div class="sub-score-item">
+                  <div class="sub-score-header">
+                    <span>Body Language</span>
+                    <span class="sub-score-val" id="score-body-language">0%</span>
+                  </div>
+                  <div class="score-track"><div class="score-fill" id="fill-body-language" style="width: 0%;"></div></div>
+                </div>
+
+                <div class="sub-score-item">
+                  <div class="sub-score-header">
+                    <span>Grammar Flow</span>
+                    <span class="sub-score-val" id="score-grammar">0%</span>
+                  </div>
+                  <div class="score-track"><div class="score-fill" id="fill-grammar" style="width: 0%;"></div></div>
+                </div>
+
+                <div class="sub-score-item">
+                  <div class="sub-score-header">
+                    <span>Vocabulary Variety</span>
+                    <span class="sub-score-val" id="score-vocabulary">0%</span>
+                  </div>
+                  <div class="score-track"><div class="score-fill" id="fill-vocabulary" style="width: 0%;"></div></div>
+                </div>
+
+                <div class="sub-score-item">
+                  <div class="sub-score-header">
+                    <span>Message Clarity</span>
+                    <span class="sub-score-val" id="score-communication">0%</span>
+                  </div>
+                  <div class="score-track"><div class="score-fill" id="fill-communication" style="width: 0%;"></div></div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Strengths & Weaknesses Comparative Grid -->
+            <div class="report-grid-middle">
+              
+              <!-- Strengths Card -->
+              <div class="card comparison-card card-border-green">
+                <div class="card-header color-green">
+                  <svg class="comparison-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                  <h3>Key Strengths</h3>
+                </div>
+                <ul class="comparison-list list-green" id="strengths-list">
+                  <li>Strong vocal range.</li>
+                </ul>
+              </div>
+
+              <!-- Weaknesses Card -->
+              <div class="card comparison-card card-border-red">
+                <div class="card-header color-red">
+                  <svg class="comparison-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+                  <h3>Areas for Improvement</h3>
+                </div>
+                <ul class="comparison-list list-red" id="weaknesses-list">
+                  <li>Inconsistent eye contact.</li>
+                </ul>
+              </div>
+
+            </div>
+
+            <!-- Interactive Timeline -->
+            <div class="card timeline-card">
+              <div class="card-header flex-between">
+                <h2>Interactive Feedback Timeline</h2>
+                <div class="timeline-filters">
+                  <button class="filter-btn active" data-category="all">All Alerts</button>
+                  <button class="filter-btn" data-category="speech">Speech</button>
+                  <button class="filter-btn" data-category="eye contact">Eye Contact</button>
+                  <button class="filter-btn" data-category="posture">Posture</button>
+                </div>
+              </div>
+              
+              <div class="timeline-container" id="timeline-list">
+                <!-- Timeline items rendered dynamically -->
+                <div class="timeline-empty">No alerts flagged! Outstanding speaking presence.</div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </main>
+
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
